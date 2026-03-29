@@ -46,11 +46,11 @@ userSchema.pre("save", async function () {
   }
 });
 
-// Compare the incoming password with the hashed password
-userSchema.methods.isCorrectPassword = async function (password) {
-  // take the plain text password, hash it and compare it with the saved password in our database
-  return bcrypt.compare(password, this.password);
-};
+// // Compare the incoming password with the hashed password
+// userSchema.methods.isCorrectPassword = async function (password) {
+//   // take the plain text password, hash it and compare it with the saved password in our database
+//   return bcrypt.compare(password, this.password);
+// };
 
 // // Ensure unique index
 // userSchema.index({ email: 1 }, { unique: true });
