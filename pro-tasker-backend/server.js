@@ -10,6 +10,7 @@ const app = express();
 
 const port = process.env.PORT || 3000;
 
+//need to add netlify and localhost url
 app.use(cors());
 app.use(express.json());
 

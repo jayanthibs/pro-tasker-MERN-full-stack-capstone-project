@@ -67,7 +67,9 @@ export async function updateTask(req, res){
       { new: true },
     );
 
-    res.status(201).json(updatedTask);
+    //res.status(201).json(updatedTask);
+
+     res.status(201).json(`Updated Task with name ${updatedTask.title}`);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -93,7 +95,10 @@ export async function deleteTask(req, res){
 
     const deletedTask = await Task.findByIdAndDelete(req.params.taskId);
 
-    res.status(200).json(deletedTask);
+    //res.status(200).json(deletedTask);
+
+      res.status(200).json(`Deleted task with name ${deletedTask.title}`);
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

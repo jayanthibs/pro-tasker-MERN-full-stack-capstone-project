@@ -63,7 +63,8 @@ export async function updateProject(req, res) {
       req.body,
       { new: true },
     );
-    res.status(201).json(updatedProject);
+   // res.status(201).json(updatedProject);
+     res.status(201).json(`Updated project with name ${updatedProject.name},  ${updatedProject}`);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -86,7 +87,11 @@ export async function deleteProject(req, res) {
 
     const deletedProject = await Project.findByIdAndDelete(req.params.id);
     const deletedTasks = await Task.deleteMany({ project: req.params.id });
-    res.status(200).json(deletedProject, deletedTasks);
+
+
+   // res.status(200).json(deletedProject, deletedTasks);
+
+    res.status(200).json(`Deleted project with name ${deletedProject.name} and deleted ${deletedTasks.deletedCount} tasks associated with the project`);
 
   } catch (error) {
     res.status(500).json(error);
