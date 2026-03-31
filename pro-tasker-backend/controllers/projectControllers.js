@@ -7,6 +7,7 @@ export async function createProject(req, res) {
       ...req.body,
       user: req.user._id,
     });
+     await newProject.populate("user", 'firstName lastName');
     res.status(201).json(newProject);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -16,9 +17,9 @@ export async function createProject(req, res) {
 //get all projects
 export async function getProjects(req, res) {
   try {
-    const projects = await Project.find({ user: req.user._id }).populate(
-      "user",
-    );
+    const projects = await Project.find({ user: req.user._id })
+                                  .sort({ createdAt: -1 })
+                                  .populate("user", 'firstName lastName');
     res.status(200).json(projects);
   } catch (error) {
     res.status(500).json({ message: error.message });

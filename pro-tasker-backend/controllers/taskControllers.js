@@ -19,6 +19,7 @@ try {
       ...req.body,
       project: req.params.projectId,
     });
+    await newTask.populate('project', 'name');
     res.status(201).json(newTask);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -35,7 +36,9 @@ export async function getTasks(req, res){
         const tasks = await Task.find({
           //   user: req.user._id,
           project: req.params.projectId,
-        }).populate("project");
+        })
+        .sort({createdAt: -1})
+        .populate("project");
         res.status(200).json(tasks);
       } catch (error) {
         res.status(500).json({ message: error.message });
