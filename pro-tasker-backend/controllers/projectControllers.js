@@ -32,7 +32,7 @@ export async function getProject(req, res) {
     const project = await Project.findOne({
       _id: req.params.id,
       user: req.user._id,
-    });
+    }).populate("user");
     if (!project) {
       return res
         .status(404)
@@ -63,9 +63,9 @@ export async function updateProject(req, res) {
       req.params.id,
       req.body,
       { new: true },
-    );
-   // res.status(201).json(updatedProject);
-     res.status(201).json(`Updated project with name ${updatedProject.name},  ${updatedProject}`);
+    ).populate("user");
+    res.status(201).json(updatedProject);
+    // res.status(201).json(`Updated project with name ${updatedProject.name},  ${updatedProject}`);
   } catch (error) {
     res.status(500).json(error);
   }

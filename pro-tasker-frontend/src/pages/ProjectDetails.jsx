@@ -19,7 +19,7 @@ function ProjectDetails() {
         //get our tasks from DB
 
         const { data } = await projectClient.get(`/${projectId}/tasks`);
-        // console.log(response.data);
+        // console.log(data);
 
         //save that in the component's state
         setTasks(data);

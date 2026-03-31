@@ -1,17 +1,37 @@
+import { useState } from "react";
 import { projectClient } from "../clients/api.js";
-import ProjectDetails from "../pages/ProjectDetails.jsx";
-import { Link } from "react-router-dom";
 
 function ProjectCard({ project, setProjects }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [name, setName] = useState(project.name);
+  const [description, setDescription] = useState(project.description);
+
   const date = new Date(project.createdAt);
 
-  // allow user to delete project
-  const handleDelete = async () => {
+  // Update project
+  const handleUpdate = async () => {
     try {
-      // removing project from database
+      const { data } = await projectClient.put(`/${project._id}`, {
+        name,
+        description,
+      });
+
+      setProjects((prev) =>
+        prev.map((p) => (p._id === project._id ? data : p))
+      );
+      setIsModalOpen(false);
+    } catch (e) {
+      console.log(e);
+      alert(e.response.data.message);
+    }
+  };
+
+  // Delete project
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this project?")) return;
+    try {
       await projectClient.delete(`/${project._id}`);
-      // removing project from state
-      setProjects((projects) => projects.filter((p) => p._id !== project._id));
+      setProjects((prev) => prev.filter((p) => p._id !== project._id));
     } catch (e) {
       console.log(e);
       alert(e.response.data.message);
@@ -20,18 +40,42 @@ function ProjectCard({ project, setProjects }) {
 
   return (
     <div>
-      <Link to={`/ProjectDetails/${project._id}`}>
-        <h3>Name: {project.name}</h3>
-        <p>Description: {project.description}</p>
-        <div>
-          Created at: {date.toLocaleDateString()} {date.toLocaleTimeString()}
-        </div>
-        <h4>
-          Owner: {project.user.firstName} {project.user.lastName}
-        </h4>
-      </Link>
+      <h3>{project.name}</h3>
+      <p>{project.description}</p>
+      <div>
+        Created at: {date.toLocaleDateString()} {date.toLocaleTimeString()}
+      </div>
+      <h4>
+        Owner: {project.user.firstName} {project.user.lastName}
+      </h4>
 
+      <button onClick={() => setIsModalOpen(true)}>Edit</button>
       <button onClick={handleDelete}>X</button>
+
+      {isModalOpen && (
+        <div>
+          <div>
+            <h3>Edit Project</h3>
+
+            <label>Name:</label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+
+            <label>Description:</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+
+            <div>
+              <button onClick={handleUpdate}>Save</button>
+              <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

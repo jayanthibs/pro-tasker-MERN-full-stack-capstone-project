@@ -52,7 +52,7 @@ export async function updateTask(req, res){
 
     try {
     const task = await Task.findOne({ _id: req.params.taskId }).populate(
-      "project",
+      "project"
     );
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
@@ -68,11 +68,11 @@ export async function updateTask(req, res){
       req.params.taskId,
       req.body,
       { new: true },
-    );
+    ).populate("project");
 
-    //res.status(201).json(updatedTask);
+    res.status(201).json(updatedTask);
 
-     res.status(201).json(`Updated Task with name ${updatedTask.title}`);
+    // res.status(201).json(`Updated Task with name ${updatedTask.title}`);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
