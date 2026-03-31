@@ -2,7 +2,7 @@ import { useState } from "react";
 import { userClient } from "../clients/api";
 import { useUser } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
-import { validateLogin } from "../hooks/useValidate.js";
+import { useValidateLogin } from "../hooks/useValidate.js";
 function Login() {
   //bring in the setter function from the context
   const { setUser } = useUser();
@@ -31,7 +31,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const validationErrors = validateLogin(form);
+    const validationErrors = useValidateLogin(form);
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);

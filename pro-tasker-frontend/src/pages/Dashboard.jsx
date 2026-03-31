@@ -1,34 +1,42 @@
 import { useEffect, useState } from "react";
 import { projectClient } from "../clients/api";
-import ProjectCard from '../components/ProjectCard'
+import ProjectCard from "../components/ProjectCard";
+import Spinner from "../components/Spinner";
+import ErrorMessage from "../components/ErrorMessage";
+import { useGlobalState } from "../context/GlobalStateContext";
 
 function Dashboard() {
   const [projects, setProjects] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
+  const { loading, setLoading, error, setError } = useGlobalState();
+
   useEffect(() => {
     async function getData() {
+      setLoading(true);
       try {
         //get our projects from DB
-
-        
         const { data } = await projectClient.get("/");
-        // console.log(response.data);
+        // console.log(data);
 
         //save that in the component's state
         setProjects(data);
+        setError(null);
       } catch (error) {
         console.log(error);
+        setError(err.message || "Failed to fetch projects");
+      } finally {
+        setLoading(false);
       }
     }
 
     getData();
   }, []);
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       //make a post request to create a project ( based off the state: name and description)
 
@@ -42,11 +50,17 @@ function Dashboard() {
 
       setName("");
       setDescription("");
+      setError(null);
     } catch (error) {
-        console.log(error);
-        alert(error.response.data.message);
+      console.log(error);
+      setError(err.response?.data?.message || "Failed to add project");
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) return <Spinner />;
+  if (error) return <ErrorMessage error={error} />;
 
   return (
     <div>
@@ -55,36 +69,41 @@ function Dashboard() {
         <h2>Add a Project:</h2>
 
         <div>
-            <label htmlFor="name">Name:</label>
-            <input
-              type="text"
-              id="name"
-              required={true}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="border"
-            />
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            required={true}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="border"
+          />
         </div>
-       
 
         <div>
-            <label htmlFor="description">Description:</label>
-            <textarea
-              type="text"
-              id="description"
-              required={true}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="border"
-            />
+          <label htmlFor="description">Description:</label>
+          <textarea
+            type="text"
+            id="description"
+            required={true}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="border"
+          />
         </div>
-       
-        <button type="submit" className="border">Submit</button>
+
+        <button type="submit" className="border">
+          Submit
+        </button>
       </form>
 
       {/* key should be there in map and filter functions at the top level element*/}
       {projects.map((project) => (
-        <ProjectCard key={project._id} project={project} setProjects={setProjects} />
+        <ProjectCard
+          key={project._id}
+          project={project}
+          setProjects={setProjects}
+        />
       ))}
     </div>
   );

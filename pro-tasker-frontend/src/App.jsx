@@ -7,19 +7,29 @@ import { useUser } from "./context/UserContext";
 import { Navigate } from "react-router-dom";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
+import { useGlobalState } from "./context/GlobalStateContext";
+import Spinner from "./components/Spinner";
+import ErrorMessage from "./components/ErrorMessage";
 
 function App() {
   //bring in user info
   const { user } = useUser();
-  console.log(user);
+  const { loading, error } = useGlobalState();
+   console.log(user);
   return (
     <>
       <Navbar />
 
+      {loading && <Spinner />}
+      {error && <ErrorMessage error={error} />}
+
       {user ? (
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/projectDetails/:projectId" element={<ProjectDetails />} />
+          <Route
+            path="/projectDetails/:projectId"
+            element={<ProjectDetails />}
+          />
           <Route path="*" element={<Navigate to="/dashboard" />} />
         </Routes>
       ) : (

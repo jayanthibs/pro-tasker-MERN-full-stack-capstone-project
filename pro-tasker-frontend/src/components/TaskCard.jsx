@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { taskClient } from "../clients/api.js";
+import { useGlobalState } from "../context/GlobalStateContext.jsx";
 
 function TaskCard({ task, setTasks }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -9,8 +10,12 @@ function TaskCard({ task, setTasks }) {
 
   const date = new Date(task.createdAt);
 
+  const { setLoading, setError } = useGlobalState();
+
   // Update task
   const handleUpdate = async () => {
+    setLoading(true);
+    setError(null);
     try {
       const { data } = await taskClient.put(`/${task._id}`, {
         title,
@@ -22,19 +27,26 @@ function TaskCard({ task, setTasks }) {
       setIsModalOpen(false);
     } catch (e) {
       console.log(e);
-      alert(e.response.data.message);
+      setError(e.response?.data?.message || "Failed to update project");
+    } finally {
+      setLoading(false);
     }
   };
 
   // Delete task
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this task?")) return;
+
+    setLoading(true);
+    setError(null);
     try {
       await taskClient.delete(`/${task._id}`);
       setTasks((prev) => prev.filter((t) => t._id !== task._id));
     } catch (e) {
       console.log(e);
-      alert(e.response.data.message);
+      setError(e.response?.data?.message || "Failed to delete project");
+    } finally {
+      setLoading(false);
     }
   };
 

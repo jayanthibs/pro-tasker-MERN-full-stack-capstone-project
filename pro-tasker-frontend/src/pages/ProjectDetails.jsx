@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { projectClient } from "../clients/api";
 import TaskCard from "../components/TaskCard";
 import { useParams } from "react-router-dom";
+import { useGlobalState } from "../context/GlobalStateContext";
+import Spinner from "../components/Spinner";
+import ErrorMessage from "../components/ErrorMessage";
 
 function ProjectDetails() {
   const [tasks, setTasks] = useState([]);
@@ -10,12 +13,12 @@ function ProjectDetails() {
   const [status, setStatus] = useState("To Do");
 
   const { projectId } = useParams();
+  const { loading, setLoading, error, setError } = useGlobalState();
 
   useEffect(() => {
     async function getData() {
+      setLoading(true);
       try {
-
-        
         //get our tasks from DB
 
         const { data } = await projectClient.get(`/${projectId}/tasks`);
@@ -23,8 +26,12 @@ function ProjectDetails() {
 
         //save that in the component's state
         setTasks(data);
+        setError(null);
       } catch (error) {
         console.log(error);
+        setError(err.message || "Failed to fetch tasks");
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -33,6 +40,7 @@ function ProjectDetails() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       //make a post request to create a project ( based off the state: name and description)
 
@@ -51,11 +59,18 @@ function ProjectDetails() {
       setTitle("");
       setDescription("");
       setStatus("To Do");
+      setError(null);
     } catch (error) {
       console.log(error);
-      alert(error.response.data.message);
+
+      setError(err.response?.data?.message || "Failed to add task");
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) return <Spinner />;
+  if (error) return <ErrorMessage error={error} />;
 
   return (
     <div>
@@ -108,11 +123,7 @@ function ProjectDetails() {
 
       {/* key should be there in map and filter functions at the top level element*/}
       {tasks.map((task) => (
-        <TaskCard
-          key={task._id}
-          task={task}
-          setTasks={setTasks}
-        />
+        <TaskCard key={task._id} task={task} setTasks={setTasks} />
       ))}
     </div>
   );

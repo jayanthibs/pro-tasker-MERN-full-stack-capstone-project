@@ -1,5 +1,5 @@
 //validation for register user
-export const validateRegister = (form) => {
+export const useValidateRegister = (form) => {
   let errors = {};
 
   if (!form.firstName.trim()) {
@@ -35,7 +35,7 @@ export const validateRegister = (form) => {
 };
 
 //validation for login user
-export const validateLogin = (form) => {
+export const useValidateLogin = (form) => {
   let errors = {};
 
   // Email validation

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { validateRegister } from "../hooks/useValidate.js";
+import { useValidateRegister } from "../hooks/useValidate.js";
 import { userClient } from "../clients/api.js";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext.jsx";
@@ -39,7 +39,7 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = validateRegister(form);
+    const validationErrors = useValidateRegister(form);
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
