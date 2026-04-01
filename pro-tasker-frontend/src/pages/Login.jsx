@@ -3,7 +3,9 @@ import { userClient } from "../clients/api";
 import { useUser } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { useValidateLogin } from "../hooks/useValidate.js";
-import Logo from "../assets/protasker-logo3.png";
+import Logo from "../assets/protasker-logo2.png";
+import loginImage from "../assets/login1.avif";
+
 
 function Login() {
   const { setUser } = useUser();
@@ -51,7 +53,7 @@ function Login() {
         {/* Left Side */}
         <div className="lg:w-1/2 bg-indigo-50 flex flex-col items-center justify-center p-10 text-center">
           <img
-            src="./src/assets/login1.avif"
+            src={loginImage}
             alt="Login illustration"
             className="w-full max-w-md rounded-xl shadow-md mb-6"
           />
@@ -74,12 +76,12 @@ function Login() {
             <img
               src={Logo}
               alt="ProTasker Logo"
-              className="h-24"
+              className="h-30"
             />
           </div>
 
           <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">
-            Login
+            Welcome back
           </h2>
 
           <form onSubmit={handleSubmit} noValidate className="space-y-6">
