@@ -16,21 +16,16 @@ function Dashboard() {
     async function getData() {
       setLoading(true);
       try {
-        //get our projects from DB
         const { data } = await projectClient.get("/");
-        // console.log(data);
-
-        //save that in the component's state
         setProjects(data);
         setError(null);
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        console.log(err);
         setError(err.message || "Failed to fetch projects");
       } finally {
         setLoading(false);
       }
     }
-
     getData();
   }, []);
 
@@ -38,21 +33,13 @@ function Dashboard() {
     e.preventDefault();
     setLoading(true);
     try {
-      //make a post request to create a project ( based off the state: name and description)
-
       const { data } = await projectClient.post("/", { name, description });
-      console.log(data);
-
-      //add the new project to our state
       setProjects([data, ...projects]);
-
-      //reset the form
-
       setName("");
       setDescription("");
       setError(null);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       setError(err.response?.data?.message || "Failed to add project");
     } finally {
       setLoading(false);
@@ -67,43 +54,15 @@ function Dashboard() {
       <h1>Project Dashboard</h1>
       <form onSubmit={handleSubmit}>
         <h2>Add a Project:</h2>
-
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            required={true}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="border"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="description">Description:</label>
-          <textarea
-            type="text"
-            id="description"
-            required={true}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="border"
-          />
-        </div>
-
-        <button type="submit" className="border">
-          Submit
-        </button>
+        <label>Name:</label>
+        <input value={name} onChange={(e) => setName(e.target.value)} required />
+        <label>Description:</label>
+        <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
+        <button type="submit">Submit</button>
       </form>
 
-      {/* key should be there in map and filter functions at the top level element*/}
       {projects.map((project) => (
-        <ProjectCard
-          key={project._id}
-          project={project}
-          setProjects={setProjects}
-        />
+        <ProjectCard key={project._id} project={project} setProjects={setProjects} variant="dashboard" />
       ))}
     </div>
   );

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { projectClient } from "../clients/api";
 import TaskCard from "../components/TaskCard";
+import ProjectCard from "../components/ProjectCard";
 import { useParams } from "react-router-dom";
 import { useGlobalState } from "../context/GlobalStateContext";
 import Spinner from "../components/Spinner";
 import ErrorMessage from "../components/ErrorMessage";
 
 function ProjectDetails() {
+  const [project, setProject] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -19,22 +21,19 @@ function ProjectDetails() {
     async function getData() {
       setLoading(true);
       try {
-        //get our tasks from DB
+        const { data: projectData } = await projectClient.get(`/${projectId}`);
+        setProject(projectData);
 
-        const { data } = await projectClient.get(`/${projectId}/tasks`);
-        // console.log(data);
-
-        //save that in the component's state
-        setTasks(data);
+        const { data: tasksData } = await projectClient.get(`/${projectId}/tasks`);
+        setTasks(tasksData);
         setError(null);
-      } catch (error) {
-        console.log(error);
-        setError(err.message || "Failed to fetch tasks");
+      } catch (err) {
+        console.log(err);
+        setError(err.message || "Failed to fetch project or tasks");
       } finally {
         setLoading(false);
       }
     }
-
     getData();
   }, [projectId]);
 
@@ -42,27 +41,14 @@ function ProjectDetails() {
     e.preventDefault();
     setLoading(true);
     try {
-      //make a post request to create a project ( based off the state: name and description)
-
-      const { data } = await projectClient.post(`/${projectId}/tasks`, {
-        title,
-        description,
-        status,
-      });
-      console.log(data);
-
-      //add the new project to our state
+      const { data } = await projectClient.post(`/${projectId}/tasks`, { title, description, status });
       setTasks([data, ...tasks]);
-
-      //reset the form
-
       setTitle("");
       setDescription("");
       setStatus("To Do");
       setError(null);
-    } catch (error) {
-      console.log(error);
-
+    } catch (err) {
+      console.log(err);
       setError(err.response?.data?.message || "Failed to add task");
     } finally {
       setLoading(false);
@@ -74,54 +60,22 @@ function ProjectDetails() {
 
   return (
     <div>
+      <ProjectCard project={project} variant="details" />
       <h1>Task List</h1>
       <form onSubmit={handleSubmit}>
-        <h2>Add a Task:</h2>
-
-        <div>
-          <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            id="title"
-            required={true}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="border"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="description">Description:</label>
-          <textarea
-            type="text"
-            id="description"
-            required={true}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="border"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="status">Status:</label>
-          <select
-            id="status"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="border"
-          >
-            <option value="To Do">To Do</option>
-            <option value="In Progress">In Progress</option>
-            <option value="Done">Done</option>
-          </select>
-        </div>
-
-        <button type="submit" className="border">
-          Submit
-        </button>
+        <label>Title:</label>
+        <input value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <label>Description:</label>
+        <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
+        <label>Status:</label>
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+          <option value="To Do">To Do</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Done">Done</option>
+        </select>
+        <button type="submit">Add Task</button>
       </form>
 
-      {/* key should be there in map and filter functions at the top level element*/}
       {tasks.map((task) => (
         <TaskCard key={task._id} task={task} setTasks={setTasks} />
       ))}
