@@ -8,10 +8,22 @@ function ProjectCard({ project, setProjects, variant = "dashboard" }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [name, setName] = useState(project?.name || "");
   const [description, setDescription] = useState(project?.description || "");
+  const [status, setStatus] = useState(project?.status || "");
 
   const { setLoading, setError } = useGlobalState();
 
   const date = project?.createdAt ? new Date(project.createdAt) : null;
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Completed":
+        return "bg-green-100 text-green-700";
+      case "In-Progress":
+        return "bg-yellow-100 text-yellow-700";
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  };
 
   const handleUpdate = async () => {
     setLoading(true);
@@ -21,10 +33,11 @@ function ProjectCard({ project, setProjects, variant = "dashboard" }) {
       const { data } = await projectClient.put(`/${project._id}`, {
         name,
         description,
+        status,
       });
 
       setProjects((prev) =>
-        prev.map((p) => (p._id === project._id ? data : p))
+        prev.map((p) => (p._id === project._id ? data : p)),
       );
 
       setIsModalOpen(false);
@@ -52,13 +65,37 @@ function ProjectCard({ project, setProjects, variant = "dashboard" }) {
     }
   };
 
+
+  const handleStatusChange = async (e) => {
+    const newStatus = e.target.value;
+    setStatus(newStatus);
+  
+    setLoading(true);
+    setError(null);
+  
+    try {
+      const { data } = await projectClient.put(`/${project._id}`, {
+        name,
+        description,
+        status: newStatus,
+      });
+  
+      setProjects((prev) =>
+        prev.map((p) => (p._id === project._id ? data : p))
+      );
+    } catch (e) {
+      setError(e.response?.data?.message || "Failed to update status");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (!project) return null;
 
   return (
     <>
       {/* Card */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition p-5 flex flex-col justify-between">
-        
         {/* Header */}
         <div className="mb-3">
           {variant === "dashboard" ? (
@@ -83,18 +120,22 @@ function ProjectCard({ project, setProjects, variant = "dashboard" }) {
         <div className="flex items-center justify-between mt-4">
           {variant === "dashboard" ? (
             <div className="flex gap-2">
-              <button
-                onClick={() => setIsModalOpen(true)}
-                
+              <select
+                value={status}
+                onChange={handleStatusChange}
+                className={`text-xs px-2 py-1 rounded-full border outline-none cursor-pointer ${getStatusColor(status)}`}
               >
-                 <PencilIcon className="h-7 w-5 text-blue-500 hover:text-blue-800 transition"/>
+                <option value="Pending">Pending</option>
+                <option value="In-Progress">In-Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+
+              <button onClick={() => setIsModalOpen(true)}>
+                <PencilIcon className="h-7 w-5 text-blue-500 hover:text-blue-800 transition" />
               </button>
 
-              <button
-                onClick={handleDelete}
-               
-              >
-                <TrashIcon className="h-5 w-5 text-red-500 hover:text-red-800 transition"/>
+              <button onClick={handleDelete}>
+                <TrashIcon className="h-5 w-5 text-red-500 hover:text-red-800 transition" />
               </button>
             </div>
           ) : (
@@ -110,8 +151,7 @@ function ProjectCard({ project, setProjects, variant = "dashboard" }) {
         {variant !== "dashboard" && (
           <div className="mt-3 text-sm text-gray-600">
             <span className="font-medium">Owner:</span>{" "}
-            {project?.user?.firstName || "-"}{" "}
-            {project?.user?.lastName || "-"}
+            {project?.user?.firstName || "-"} {project?.user?.lastName || "-"}
           </div>
         )}
       </div>
@@ -120,7 +160,6 @@ function ProjectCard({ project, setProjects, variant = "dashboard" }) {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-6 space-y-4">
-            
             <h3 className="text-xl font-semibold">Edit Project</h3>
 
             <div>
@@ -141,6 +180,20 @@ function ProjectCard({ project, setProjects, variant = "dashboard" }) {
               />
             </div>
 
+
+             <div>
+              <label className="text-sm text-gray-600">Status</label>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              >
+                <option value="Pending">Pending</option>
+                <option value="In-Progress">In-Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+
             <div className="flex justify-end gap-3 pt-2">
               <button
                 onClick={() => setIsModalOpen(false)}
@@ -156,7 +209,6 @@ function ProjectCard({ project, setProjects, variant = "dashboard" }) {
                 Save
               </button>
             </div>
-
           </div>
         </div>
       )}

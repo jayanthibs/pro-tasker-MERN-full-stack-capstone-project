@@ -20,8 +20,8 @@ function App() {
     <>
       <Navbar />
 
-      {loading && <Spinner />}
-      {error && <ErrorMessage error={error} />}
+      {/* {loading && <Spinner />}
+      {error && <ErrorMessage error={error} />} */}
 
       {user ? (
         <Routes>

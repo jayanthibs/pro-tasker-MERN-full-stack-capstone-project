@@ -9,6 +9,7 @@ function Dashboard() {
   const [projects, setProjects] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("Pending");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { loading, setLoading, error, setError } = useGlobalState();
@@ -34,10 +35,11 @@ function Dashboard() {
     setLoading(true);
 
     try {
-      const { data } = await projectClient.post("/", { name, description });
+      const { data } = await projectClient.post("/", { name, description, status });
       setProjects((prev) => [data, ...prev]);
       setName("");
       setDescription("");
+      setStatus("Pending");
       setIsModalOpen(false);
       setError(null);
     } catch (err) {
@@ -152,6 +154,15 @@ function Dashboard() {
                   placeholder="Enter project description"
                 />
               </div>
+
+              <div>
+                <label>Status</label>
+                <select value={status} onChange={(e) => setStatus(e.target.value)} required>
+                  <option value="Pending">Pending</option>
+                  <option value="In-Progress">In-Progress</option>
+                  <option value="Completed">Completed</option>
+                </select>
+                </div>
 
               <div className="flex justify-end gap-3 pt-2">
                 <button
