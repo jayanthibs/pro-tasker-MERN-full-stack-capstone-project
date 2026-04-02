@@ -6,7 +6,7 @@ function Navbar() {
   const { user, logout } = useUser();
 
   return (
-    <nav className="bg-violet-300">
+    <nav className="bg-violet-200">
 
       <div className="flex items-center justify-between px-30 py-3">
         {/* Left: Logo */}
