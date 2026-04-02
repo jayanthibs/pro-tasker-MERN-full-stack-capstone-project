@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useGlobalState } from "../context/GlobalStateContext";
 import Spinner from "../components/Spinner";
 import ErrorMessage from "../components/ErrorMessage";
+import SearchCard from "../components/SearchCard";
 
 function ProjectDetails() {
   const [project, setProject] = useState(null);
@@ -28,7 +29,7 @@ function ProjectDetails() {
         setProject(projectData);
 
         const { data: tasksData } = await projectClient.get(
-          `/${projectId}/tasks`
+          `/${projectId}/tasks`,
         );
         setTasks(tasksData);
 
@@ -88,7 +89,6 @@ function ProjectDetails() {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto space-y-8">
-
         {/* Header + Project */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -102,6 +102,7 @@ function ProjectDetails() {
             </button>
           </div>
         </div>
+        <SearchCard data={tasks} />
 
         {/* Tasks Section */}
         <div>
@@ -122,18 +123,15 @@ function ProjectDetails() {
             </div>
           )}
         </div>
-
       </div>
 
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-6 space-y-4">
-
             <h2 className="text-xl font-semibold">Create New Task</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-
               <div>
                 <label className="text-sm text-gray-600">Title</label>
                 <input
@@ -185,12 +183,10 @@ function ProjectDetails() {
                   Create
                 </button>
               </div>
-
             </form>
           </div>
         </div>
       )}
-
     </div>
   );
 }

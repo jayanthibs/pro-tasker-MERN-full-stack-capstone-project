@@ -4,6 +4,8 @@ import ProjectCard from "../components/ProjectCard";
 import Spinner from "../components/Spinner";
 import ErrorMessage from "../components/ErrorMessage";
 import { useGlobalState } from "../context/GlobalStateContext";
+import StatsCard from "../components/StatsCard";
+import SearchCard from "../components/SearchCard";
 
 function Dashboard() {
   const [projects, setProjects] = useState([]);
@@ -87,6 +89,11 @@ function Dashboard() {
             + New Project
           </button>
         </div>
+
+        <SearchCard data={projects} />
+
+
+        <StatsCard projects={projects} />
 
         {/* Projects Grid */}
         <div>
