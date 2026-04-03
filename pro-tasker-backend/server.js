@@ -11,7 +11,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 //need to add netlify and localhost url
-app.use(cors());
+app.use(cors({origin: [process.env.CLIENT_ORIGIN, 'http://localhost:5173' ]}));
 app.use(express.json());
 
 app.use('/api/users', userRoutes);

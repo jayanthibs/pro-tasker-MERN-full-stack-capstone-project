@@ -10,8 +10,8 @@ This application demonstrates full-stack development skills including API design
 
 ## 🔗 Live URLs
 
-* **Frontend:** 
-* **Backend API:** 
+* **Frontend:** https://pro-tasker-mern-full-stack-capstone.netlify.app
+* **Backend API:** https://pro-tasker-mern-full-stack-capstone.onrender.com
 
 ---
 
