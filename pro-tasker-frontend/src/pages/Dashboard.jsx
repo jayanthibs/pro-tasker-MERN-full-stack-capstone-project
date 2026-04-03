@@ -100,8 +100,8 @@ function Dashboard() {
         )}
         {/* Projects */}
         <div>
-          <h2 className="text-xl font-semibold mb-4 text-indigo-800">
-            {searchQuery ? "Search Results" : "Your Projects"}
+          <h2 className="text-xl font-semibold mb-4 text-indigo-900">
+            {searchQuery ? "Search Results" : "My Projects"}
           </h2>
           {searchQuery ? (
             filteredProjects.length === 0 ? (
@@ -159,11 +159,11 @@ function Dashboard() {
                 <option>In-Progress</option>
                 <option>Completed</option>
               </select>
-              <div className="flex justify-end gap-2">
+              <div className="flex justify-end gap-2 cursor-pointer">
                 <button type="button" onClick={() => setIsModalOpen(false)}>
                   Cancel
                 </button>
-                <button type="submit" className="bg-indigo-600 text-white px-4 py-2 rounded">
+                <button type="submit" className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded cursor-pointer">
                   Create
                 </button>
               </div>

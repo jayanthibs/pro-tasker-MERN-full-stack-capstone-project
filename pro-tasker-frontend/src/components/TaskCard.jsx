@@ -176,13 +176,13 @@ function TaskCard({ task, setTasks }) {
             <div className="flex justify-end gap-3 pt-2">
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 text-sm rounded-lg bg-gray-100 hover:bg-gray-200 transition"
+                className="px-4 py-2 text-sm rounded-lg bg-gray-100 hover:bg-gray-200 transition cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleUpdate}
-                className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+                className="px-4 py-2 text-sm rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:bg-blue-700 transition cursor-pointer"
               >
                 Save
               </button>
