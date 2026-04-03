@@ -142,12 +142,14 @@ function Dashboard() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Project name"
+                required
                 className="w-full border px-3 py-2 rounded"
               />
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Description"
+                required
                 className="w-full border px-3 py-2 rounded"
               />
               <select

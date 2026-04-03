@@ -13,6 +13,8 @@ This application demonstrates full-stack development skills including API design
 * **Frontend:** https://pro-tasker-mern-full-stack-capstone.netlify.app
 * **Backend API:** https://pro-tasker-mern-full-stack-capstone.onrender.com
 
+<img src="./pro-tasker-frontend/src/assets/protasker-loginpage.jpg" width="500"/>
+
 ---
 
 ## ✨ Features
