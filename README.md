@@ -169,6 +169,7 @@ pro-tasker/
 | ------ | ------------------- | ------------------- |
 | POST   | /api/users/register | Register a new user |
 | POST   | /api/users/login    | Login user          |
+| GET    | /api/users/         | Verify a user       |
 
 ---
 
