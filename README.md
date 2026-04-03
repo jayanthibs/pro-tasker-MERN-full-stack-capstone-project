@@ -10,8 +10,8 @@ This application demonstrates full-stack development skills including API design
 
 ## 🔗 Live URLs
 
-* **Frontend:** *Add your deployed frontend URL here*
-* **Backend API:** *Add your deployed backend URL here*
+* **Frontend:** 
+* **Backend API:** 
 
 ---
 
@@ -73,7 +73,7 @@ This application demonstrates full-stack development skills including API design
 ## 🏗️ Project Structure
 
 ###  Backend Structure
-
+```bash
 pro-tasker/
 └── backend/
     ├── config/
@@ -101,9 +101,9 @@ pro-tasker/
     ├── .gitignore
     ├── package.json
     └── server.js                # Entry point
-
+```
 ### Frontend Structure
-
+```bash
 pro-tasker/
 └── frontend/
     ├── public/
@@ -147,7 +147,7 @@ pro-tasker/
     ├── .env
     ├── package.json
     └── vite.config.js
-
+```
 ---
 
 ## 🔐 Authentication & Authorization
@@ -279,7 +279,7 @@ npm run dev
 
 ## 👨‍💻 Author
 
-**Jayanthi Balasubramani**
+## Jayanthi Balasubramani
 Full-Stack Developer
 
 ---
