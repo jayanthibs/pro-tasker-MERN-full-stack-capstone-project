@@ -51,22 +51,32 @@ function Login() {
 <div className="relative bg-white/95 backdrop-blur-md border border-white/20 rounded-3xl shadow-2xl flex flex-col lg:flex-row overflow-hidden max-w-4xl xl:max-w-5xl w-full">
 
   {/* LEFT */}
-  <div className="hidden lg:flex lg:w-1/2 bg-indigo-50 flex-col items-center justify-center p-10 xl:p-14 text-center">
+  <div className="hidden lg:flex lg:w-1/2 p-4">
   
-  <img
-    src={loginImage}
-    alt="Login illustration"
-    className="w-full max-w-lg xl:max-w-xl 2xl:max-w-2xl rounded-2xl shadow-lg mb-8 object-contain"
-  />
+  <div className="w-full h-full flex flex-col bg-indigo-50 rounded-2xl overflow-hidden">
+    
+    {/* Image */}
+    <div className="flex-1 overflow-hidden">
+      <img
+        src={loginImage}
+        alt="Login illustration"
+        className="w-full h-full object-cover"
+      />
+    </div>
 
-  <h2 className="text-xl xl:text-2xl 2xl:text-3xl font-bold text-gray-800 mb-3">
-    Manage Projects Smarter
-  </h2>
+    {/* Bottom Text (separate, NOT on image) */}
+    <div className="p-6 xl:p-8 text-center">
+      <h2 className="text-xl xl:text-2xl font-bold text-gray-800 mb-2">
+        Manage Projects Smarter
+      </h2>
 
-  <p className="text-gray-700 text-sm xl:text-base px-6">
-    Plan, track, and collaborate seamlessly with ProTasker.
-    Stay organized and boost your team’s productivity.
-  </p>
+      <p className="text-sm xl:text-base text-gray-600">
+        Plan, track, and collaborate seamlessly with ProTasker.
+        Stay organized and boost your team’s productivity.
+      </p>
+    </div>
+
+  </div>
 </div>
 
       {/* RIGHT */}

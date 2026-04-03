@@ -67,23 +67,33 @@ function Register() {
   <div className="relative bg-white/95 backdrop-blur-md border border-white/20 rounded-3xl shadow-2xl flex flex-col lg:flex-row overflow-hidden max-w-4xl xl:max-w-5xl w-full">
 
     {/* LEFT (Hidden on mobile) */}
-    <div className="hidden lg:flex lg:w-1/2 bg-indigo-50 flex-col items-center justify-center p-10 xl:p-14 text-center">
-      
+<div className="hidden lg:flex lg:w-1/2 p-4">
+  
+  <div className="w-full h-full flex flex-col bg-indigo-50 rounded-2xl overflow-hidden">
+    
+    {/* Image */}
+    <div className="flex-1 overflow-hidden">
       <img
         src={registerImage}
         alt="Register"
-        className="w-full h-[350px] xl:h-[450px] object-contain rounded-xl shadow-md mb-6"
+        className="w-full h-full object-cover"
       />
+    </div>
 
+    {/* Bottom Text */}
+    <div className="p-6 xl:p-8 text-center">
       <h2 className="text-xl xl:text-2xl font-bold text-gray-800 mb-2">
         Join ProTasker Today
       </h2>
 
-      <p className="text-gray-600 text-sm px-6">
+      <p className="text-gray-600 text-sm xl:text-base px-4">
         Create your account and start managing projects efficiently.
         Collaborate, track progress, and stay productive.
       </p>
     </div>
+
+  </div>
+</div>
 
     {/* RIGHT */}
     <div className="w-full lg:w-1/2 p-6 sm:p-8 lg:p-12 flex flex-col justify-center">

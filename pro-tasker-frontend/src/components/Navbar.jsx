@@ -22,10 +22,10 @@ function NavBar() {
 
         {/* Center Welcome (Desktop) */}
         {user?.firstName && (
-          <div className="hidden md:flex">
+          <div className="hidden md:flex bg-gradient-to-br from-violet-600 via-indigo-600 to-purple-600 rounded-lg">
             <span className="text-lg px-4 py-1.5 rounded-lg bg-white/10 text-white border border-white/10">
               Welcome {" "}
-              <span className="font-semibold text-white text-lg">
+              <span className="font-semibold text-white text-xl">
                 {user.firstName} {user.lastName}
               </span>
             </span>
@@ -38,7 +38,7 @@ function NavBar() {
             <>
               <Link
                 to="/dashboard"
-                className="px-3 py-1.5 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition text-lg"
+                className="px-3 py-1.5 rounded-lg bg-gradient-to-br from-violet-600 via-indigo-600 to-purple-600 text-white hover:bg-indigo-700 transition text-lg"
               >
                 Dashboard
               </Link>
