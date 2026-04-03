@@ -65,7 +65,7 @@ function Dashboard() {
     );
   }
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-200 to-purple-100 p-6">
+    <div className="min-h-screen bg-indigo-200 p-6">
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-md border">
@@ -79,13 +79,13 @@ function Dashboard() {
           </div>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2 rounded-xl"
+            className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2 rounded-xl cursor-pointer"
           >
             + New Project
           </button>
         </div>
         {/* Search */}
-        <div className="bg-white/70 p-4 rounded-2xl shadow">
+        <div >
           <SearchCard
             data={projects}
             onFilter={setFilteredProjects}

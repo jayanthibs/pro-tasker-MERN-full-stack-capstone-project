@@ -11,9 +11,9 @@ function TasksOverview({ tasks }) {
   };
 
   const data = [
-    { name: "To-Do", value: counts.todo, color: "#3b82f6" },
+    { name: "To Do", value: counts.todo, color: "#3b82f6" },
     { name: "In Progress", value: counts.inProgress, color: "#22c55e" },
-    { name: "Completed", value: counts.done, color: "#eab308" },
+    { name: "Done", value: counts.done, color: "#eab308" },
   ];
 
   return (
@@ -31,13 +31,13 @@ function TasksOverview({ tasks }) {
             value={total}
             color="bg-gray-400"
           />
-          <Stat label="To-Do" value={counts.todo} color="bg-blue-500" />
+          <Stat label="To Do" value={counts.todo} color="bg-blue-500" />
           <Stat
             label="In Progress"
             value={counts.inProgress}
             color="bg-green-500"
           />
-          <Stat label="Completed" value={counts.done} color="bg-yellow-500" />
+          <Stat label="Done" value={counts.done} color="bg-yellow-500" />
         </div>
 
         {/* Right Chart */}

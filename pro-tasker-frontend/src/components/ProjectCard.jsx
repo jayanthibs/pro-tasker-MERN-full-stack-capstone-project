@@ -84,13 +84,14 @@ function ProjectCard({ project, setProjects, variant = "dashboard" }) {
   return (
     <>
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition p-5 flex flex-col justify-between">
+
         
         {/* Header */}
         <div className="mb-3">
           {variant === "dashboard" ? (
             <Link
               to={`/projectDetails/${project._id}`}
-              className="text-lg font-semibold text-gray-800 hover:text-blue-600 transition"
+              className="text-xl font-semibold text-gray-800 hover:text-blue-600 transition"
             >
               {project.name}
             </Link>
@@ -99,12 +100,12 @@ function ProjectCard({ project, setProjects, variant = "dashboard" }) {
               {project.name}
             </h3>
           )}
-          <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+          <p className="text-sm text-gray-800 mt-1 line-clamp-2">
             {project.description}
           </p>
         </div>
         {/* Footer */}
-        <div className="flex items-center justify-between mt-4">
+        <div className="flex items-center justify-between ">
           {variant === "dashboard" ? (
             <div className="flex gap-2">
               <select
@@ -119,14 +120,15 @@ function ProjectCard({ project, setProjects, variant = "dashboard" }) {
                 <option value="Completed">Completed</option>
               </select>
               <button onClick={() => setIsModalOpen(true)}>
-                <PencilIcon className="h-7 w-5 text-blue-500 hover:text-blue-800 transition" />
+                <PencilIcon className="h-7 w-5 text-blue-500 hover:text-blue-800 transition cursor-pointer" />
               </button>
               <button onClick={handleDelete}>
-                <TrashIcon className="h-5 w-5 text-red-500 hover:text-red-800 transition" />
+                <TrashIcon className="h-5 w-5 text-red-500 hover:text-red-800 transition cursor-pointer" />
               </button>
             </div>
           ) : (
-            <div className="text-xs text-gray-500">
+            <div className="mt-1 text-sm text-gray-800">
+              <span className="font-bold">CreatedAt:</span>{" "}
               {date
                 ? `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
                 : "-"}
@@ -135,8 +137,8 @@ function ProjectCard({ project, setProjects, variant = "dashboard" }) {
         </div>
         {/* Owner */}
         {variant !== "dashboard" && (
-          <div className="mt-3 text-sm text-gray-600">
-            <span className="font-medium">Owner:</span>{" "}
+          <div className="mt-1 text-sm text-gray-800">
+            <span className="font-bold">Owner:</span>{" "}
             {project?.user?.firstName || "-"} {project?.user?.lastName || "-"}
           </div>
         )}

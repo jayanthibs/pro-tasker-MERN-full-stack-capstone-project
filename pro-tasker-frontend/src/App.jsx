@@ -1,4 +1,4 @@
-import Navbar from "./components/Navbar";
+import NavBar from "./components/NavBar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -8,17 +8,16 @@ import { Navigate } from "react-router-dom";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { useGlobalState } from "./context/GlobalStateContext";
-import Spinner from "./components/Spinner";
-import ErrorMessage from "./components/ErrorMessage";
+
 
 function App() {
   //bring in user info
   const { user } = useUser();
   const { loading, error } = useGlobalState();
-   console.log(user);
+  // console.log(user);
   return (
     <>
-      <Navbar />
+      <NavBar />
 
       {/* {loading && <Spinner />}
       {error && <ErrorMessage error={error} />} */}

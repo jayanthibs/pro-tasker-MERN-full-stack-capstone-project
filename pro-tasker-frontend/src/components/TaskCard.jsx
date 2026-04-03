@@ -42,9 +42,7 @@ function TaskCard({ task, setTasks }) {
         status,
       });
 
-      setTasks((prev) =>
-        prev.map((t) => (t._id === task._id ? data : t))
-      );
+      setTasks((prev) => prev.map((t) => (t._id === task._id ? data : t)));
 
       setIsModalOpen(false);
     } catch (e) {
@@ -55,8 +53,7 @@ function TaskCard({ task, setTasks }) {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this task?"))
-      return;
+    if (!window.confirm("Are you sure you want to delete this task?")) return;
 
     setLoading(true);
     setError(null);
@@ -77,11 +74,8 @@ function TaskCard({ task, setTasks }) {
 
     setStatus(newStatus);
 
-    // Optimistic UI update
     setTasks((prev) =>
-      prev.map((t) =>
-        t._id === task._id ? { ...t, status: newStatus } : t
-      )
+      prev.map((t) => (t._id === task._id ? { ...t, status: newStatus } : t)),
     );
 
     try {
@@ -89,9 +83,8 @@ function TaskCard({ task, setTasks }) {
         status: newStatus,
       });
 
-      setTasks((prev) =>
-        prev.map((t) => (t._id === task._id ? data : t))
-      );
+      setTasks((prev) => prev.map((t) => (t._id === task._id ? data : t)));
+
     } catch (e) {
       setError(e.response?.data?.message || "Failed to update status");
     }
@@ -101,114 +94,99 @@ function TaskCard({ task, setTasks }) {
 
   return (
     <>
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition p-5 flex flex-col justify-between">
-        
-        {/* Header */}
-        <div className="mb-3">
-          <h3 className="text-lg font-semibold text-gray-800">
-            {task.title}
-          </h3>
-
-          <p className="text-sm text-gray-500 mt-1 line-clamp-2">
-            {task.description}
-          </p>
-        </div>
-
-        {/* Footer */}
-        <div className="flex items-center justify-between mt-4">
-
-          <div className="flex gap-2">
-            <select
-              value={status}
-              onChange={handleStatusChange}
-              className={`text-xs px-2 py-1 rounded-full border outline-none cursor-pointer ${getStatusColor(
-                status
-              )}`}
-            >
-              <option value="To Do">To Do</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Done">Done</option>
-            </select>
-
-            <button onClick={() => setIsModalOpen(true)}>
-              <PencilIcon className="h-5 w-5 text-blue-500 hover:text-blue-800 transition" />
-            </button>
-
-            <button onClick={handleDelete}>
-              <TrashIcon className="h-5 w-5 text-red-500 hover:text-red-800 transition" />
-            </button>
-          </div>
-
-          <div className="text-xs text-gray-500">
-            {date
-              ? `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
-              : "-"}
-          </div>
-
-        </div>
-
-        {/* Project name */}
-        <div className="mt-3 text-sm text-gray-600">
-          <span className="font-medium">Project:</span>{" "}
-          {task?.project?.name || "-"}
-        </div>
-
+       {/* Card */}
+<div className="bg-white rounded-xl shadow-md border border-gray-200 p-5 hover:shadow-lg transition flex justify-between gap-4">
+  {/* Left Side - Task Info */}
+  <div className="flex flex-col justify-between flex-1">
+    
+    <div>
+      <h3 className="text-lg font-semibold text-gray-800">
+        {task.title}
+      </h3>
+      <p className="text-sm text-gray-500 mt-2 line-clamp-3">
+        {task.description}
+      </p>
+    </div>
+    <div className=" mt-2 space-y-1">
+      <div className="text-xs text-gray-500">
+        📅 {date.toLocaleDateString()} {date.toLocaleTimeString()}
       </div>
-
+      <div className="text-sm text-gray-600">
+        <span className="font-medium">Project:</span>{" "}
+        {task.project?.name || "-"}
+      </div>
+    </div>
+  </div>
+  {/* Right Side - Actions */}
+  <div className="flex flex-col items-end justify-between gap-3">
+    {/* Status */}
+    <select
+      value={status}
+      onChange={handleStatusChange}
+      className={`text-xs px-3 py-1 rounded-full border outline-none cursor-pointer ${getStatusColor(status)}`}
+    >
+      <option value="To Do">To Do</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Done">Done</option>
+    </select>
+    {/* Buttons */}
+    <div className="flex gap-3">
+      <button onClick={() => setIsModalOpen(true)}>
+        <PencilIcon className="h-5 w-5 text-blue-500 hover:text-blue-700 transition cursor-pointer" />
+      </button>
+      <button onClick={handleDelete}>
+        <TrashIcon className="h-5 w-5 text-red-500 hover:text-red-700 transition cursor-pointer" />
+      </button>
+    </div>
+  </div>
+</div>
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-6 space-y-4">
-
             <h3 className="text-xl font-semibold">Edit Task</h3>
-
             <div>
               <label className="text-sm text-gray-600">Title</label>
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full mt-1 px-3 py-2 border rounded-lg"
+                className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
-
             <div>
               <label className="text-sm text-gray-600">Description</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full mt-1 px-3 py-2 border rounded-lg h-24 resize-none"
+                className="w-full mt-1 px-3 py-2 border rounded-lg h-24 resize-none focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
-
             <div>
               <label className="text-sm text-gray-600">Status</label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                className="w-full mt-1 px-3 py-2 border rounded-lg"
+                className="w-full mt-1 px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               >
                 <option value="To Do">To Do</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Done">Done</option>
               </select>
             </div>
-
             <div className="flex justify-end gap-3 pt-2">
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 text-sm rounded-lg bg-gray-100"
+                className="px-4 py-2 text-sm rounded-lg bg-gray-100 hover:bg-gray-200 transition"
               >
                 Cancel
               </button>
-
               <button
                 onClick={handleUpdate}
-                className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white"
+                className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
               >
                 Save
               </button>
             </div>
-
           </div>
         </div>
       )}

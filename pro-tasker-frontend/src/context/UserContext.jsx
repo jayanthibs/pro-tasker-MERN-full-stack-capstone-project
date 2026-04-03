@@ -39,7 +39,7 @@ function UserProvider({ children }) {
 
         // await new Promise((res) =>{ setTimeout(res, 2000)});
 
-        console.log(data);
+       // console.log(data);
 
         //if verified that token is legit, take the user data and save it to state
 

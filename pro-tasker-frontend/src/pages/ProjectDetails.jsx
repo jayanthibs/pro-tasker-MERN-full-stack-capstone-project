@@ -30,17 +30,16 @@ function ProjectDetails() {
   useEffect(() => {
     async function getData() {
       setLoading(true);
-
       try {
         const { data: projectData } = await projectClient.get(`/${projectId}`);
         setProject(projectData);
 
         const { data: tasksData } = await projectClient.get(
-          `/${projectId}/tasks`,
+          `/${projectId}/tasks`
         );
 
         setTasks(tasksData);
-        setFilteredTasks(tasksData); // important
+        setFilteredTasks(tasksData);
         setError(null);
       } catch (err) {
         setError(err.message || "Failed to fetch project or tasks");
@@ -64,7 +63,6 @@ function ProjectDetails() {
       });
 
       const updatedTasks = [data, ...tasks];
-
       setTasks(updatedTasks);
       setFilteredTasks(updatedTasks);
 
@@ -90,29 +88,50 @@ function ProjectDetails() {
 
   if (error) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen px-4">
         <ErrorMessage error={error} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="min-h-screen bg-indigo-200 px-4 sm:px-6 py-6">
+      <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
+
+        {/* Page Header */}
+        <div className="text-center md:text-left">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-indigo-800 mb-2">
+            {project?.name || "Project Dashboard"}
+          </h1>
+          <p className="text-gray-600 text-sm sm:text-base lg:text-lg">
+            Track tasks, monitor progress, and manage your project effectively.
+          </p>
+        </div>
+
         {/* Project Header */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
-            <div className="flex items-center gap-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-5">
+          <div className="flex flex-col lg:flex-row items-center gap-6">
+
+            {/* Project */}
+            <div className="w-full lg:flex-[1.5]">
               <ProjectCard project={project} variant="details" />
+            </div>
+
+            {/* Progress */}
+            <div className="w-full flex justify-center lg:flex-1">
               <ProgressCircle progress={progress} />
             </div>
 
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-sm transition"
-            >
-              + New Task
-            </button>
+            {/* Button */}
+            <div className="w-full flex justify-center lg:justify-end lg:flex-1">
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow-sm transition cursor-pointer"
+              >
+                + New Task
+              </button>
+            </div>
+
           </div>
         </div>
 
@@ -123,11 +142,12 @@ function ProjectDetails() {
           setSearchQuery={setSearchQuery}
         />
 
+        {/* Overview */}
         <TasksOverview tasks={tasks} />
 
         {/* Tasks Section */}
         <div>
-          <h2 className="text-xl font-semibold mb-4">
+          <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
             {searchQuery ? "Search Results" : "Tasks"}
           </h2>
 
@@ -135,7 +155,7 @@ function ProjectDetails() {
             filteredTasks.length === 0 ? (
               <p className="text-gray-500">No tasks found.</p>
             ) : (
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredTasks.map((task) => (
                   <TaskCard key={task._id} task={task} setTasks={setTasks} />
                 ))}
@@ -144,7 +164,7 @@ function ProjectDetails() {
           ) : tasks.length === 0 ? (
             <p className="text-gray-500">No tasks available.</p>
           ) : (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {tasks.map((task) => (
                 <TaskCard key={task._id} task={task} setTasks={setTasks} />
               ))}
@@ -155,9 +175,9 @@ function ProjectDetails() {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-6 space-y-4">
-            <h2 className="text-xl font-semibold">Create New Task</h2>
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-5 sm:p-6 space-y-4">
+            <h2 className="text-lg sm:text-xl font-semibold">Create New Task</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
