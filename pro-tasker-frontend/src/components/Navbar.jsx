@@ -3,7 +3,7 @@ import { useUser } from "../context/UserContext";
 import { useState } from "react";
 import Logo from "../assets/protasker-logo.png";
 
-function NavBar() {
+function Navbar() {
   const { user, logout } = useUser();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -161,4 +161,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default Navbar;

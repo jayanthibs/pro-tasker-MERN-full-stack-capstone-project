@@ -1,4 +1,4 @@
-import NavBar from "./components/NavBar";
+import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -17,7 +17,7 @@ function App() {
   // console.log(user);
   return (
     <>
-      <NavBar />
+      <Navbar />
 
       {/* {loading && <Spinner />}
       {error && <ErrorMessage error={error} />} */}
