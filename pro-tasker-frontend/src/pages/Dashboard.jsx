@@ -161,8 +161,8 @@ function Dashboard() {
                 <option>In-Progress</option>
                 <option>Completed</option>
               </select>
-              <div className="flex justify-end gap-2 cursor-pointer">
-                <button type="button" onClick={() => setIsModalOpen(false)}>
+              <div className="flex justify-end gap-2 ">
+                <button type="button" onClick={() => setIsModalOpen(false)} className="cursor-pointer">
                   Cancel
                 </button>
                 <button type="submit" className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded cursor-pointer">
