@@ -13,7 +13,7 @@ import { useGlobalState } from "./context/GlobalStateContext";
 function App() {
   //bring in user info
   const { user } = useUser();
-  const { loading, error } = useGlobalState();
+  //const { loading, error } = useGlobalState();
   // console.log(user);
   return (
     <>

@@ -24,9 +24,9 @@ function Navbar() {
         {user?.firstName && (
           <div className="hidden md:flex bg-gradient-to-br from-violet-600 via-indigo-600 to-purple-600 rounded-lg">
             <span className="text-lg px-4 py-1.5 rounded-lg bg-white/10 text-white border border-white/10">
-              Welcome {" "}
+              Welcome, {" "}
               <span className="font-semibold text-white text-xl">
-                {user.firstName} {user.lastName}
+                {user.firstName}!
               </span>
             </span>
           </div>
