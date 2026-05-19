@@ -44,9 +44,9 @@ function Register() {
     } else {
       try {
         const { data } = await userClient.post("/register", form);
-        localStorage.setItem("token", data.token);
-        setUser(data.newUser);
-        navigate("/dashboard");
+        // localStorage.setItem("token", data.token);
+        // setUser(data.newUser);
+        navigate("/login");
       } catch (error) {
         alert(error.response?.data?.message || "Something went wrong.");
       }
